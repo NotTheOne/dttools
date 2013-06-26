@@ -1,4 +1,8 @@
 Dttools::Application.routes.draw do
+
+resources :insights
+
+  root to: 'insights#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
