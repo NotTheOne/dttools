@@ -13,5 +13,11 @@ feature 'adding an insight' do
 
 		expect(page).to have_content('foo bar')
 	end
-	
+
+	scenario 'displays error when name is blank' do
+		visit new_insight_path
+		click_on 'Create Insight'
+
+		expect(page).to have_content("can't be blank")
+	end
 end
