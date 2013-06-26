@@ -7,7 +7,7 @@ feature 'adding an insight' do
 		click_on 'Add Insight'
 
 		fill_in 'Name', with: 'foo bar'
-		click_on 'Add Insight'
+		click_on 'Create Insight'
 
 		click_on 'Done'
 
