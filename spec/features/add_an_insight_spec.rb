@@ -2,8 +2,11 @@ require 'spec_helper'
 
 feature 'adding an insight' do
 
+	let(:insight) { FactoryGirl.create(:insight) }
+
 	scenario 'user can add an insight to the matrix' do
-		visit root_path
+		FactoryGirl.create(:insight)
+		visit insights_path
 		click_on 'Add Insight'
 
 		fill_in 'Name', with: 'foo bar'
@@ -20,4 +23,20 @@ feature 'adding an insight' do
 
 		expect(page).to have_content("can't be blank")
 	end
+
+	scenario 'user can delete an insight from the matrix' do
+		FactoryGirl.create(:insight)
+		visit insights_path
+		
+		expect(page).to have_content('Roger')
+
+		click_on 'Delete Insight'
+		expect(page).to_not have_content('Roger')
+end
+
+
+
+
+
+	
 end

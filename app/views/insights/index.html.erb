@@ -1,12 +1,25 @@
 <h1>Insight Matrix</h1>
 
-<ul>
-	
-	<% @insights.each do | insight| %>
-		<li><%= insight.name %></li>
-	<%end%>
-</ul>
 
+<table>
+	<thead>
+		<th></th>
+		<% @insights.each do |i| %>
+			<th><%= i.name %></th>
+		<% end %>
+	</thead>
+	<tbody>
+		<% @insights.each do |insight| %>
+			<tr>
+				<td><%= insight.name %></td>
+				<% (1..@insights.length).to_a.each do %>
+					<td>Dropdown!</td>
+				<% end %>
+				<td>
+					<%= link_to 'Delete Insight', insight, method: :delete, data: { confirm:"Are you sure?" }, class:"btn btn-mini btn-danger"   %>
+				</td>
+			</tr>
+		<% end %>
+</table>
 
-
-<%= link_to 'Add Insight', new_insight_path %>
+<%= link_to 'Add Insight', new_insight_path, class:"btn btn-mini btn-info" %>
