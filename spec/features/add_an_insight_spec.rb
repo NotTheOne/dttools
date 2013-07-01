@@ -32,6 +32,15 @@ feature 'adding an insight' do
 
 		click_on 'Delete Insight'
 		expect(page).to_not have_content('Roger')
+
+
+	scenario 'user can edit an existing insight' do
+		FactoryGirl.create(:insight)
+		visit insights_path
+		expect(page).to have_content('Roger')
+		click_on 'Edit Insight'
+		expect(page).to have_content('Steve')
+	end
 end
 
 

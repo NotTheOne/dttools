@@ -4,7 +4,7 @@
 <table>
 	<thead>
 		<th></th>
-		<% @insights.each do |i| %>
+		<% @insights.each do |i| %> <!-- creates a loop to create the grid	-->
 			<th><%= i.name %></th>
 		<% end %>
 	</thead>
@@ -13,13 +13,22 @@
 			<tr>
 				<td><%= insight.name %></td>
 				<% (1..@insights.length).to_a.each do %>
-					<td>Dropdown!</td>
+					<td>
+						<select>
+							<option>0</option> <!-- different rating options -->
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+						</select>
+					</td>
 				<% end %>
-				<td>
+				<td> <!-- from here down to the next end creates the delete button -->
 					<%= link_to 'Delete Insight', insight, method: :delete, data: { confirm:"Are you sure?" }, class:"btn btn-mini btn-danger"   %>
 				</td>
 			</tr>
 		<% end %>
 </table>
-
+ 
+ <!-- the line below creates the add insinght button  -->
 <%= link_to 'Add Insight', new_insight_path, class:"btn btn-mini btn-info" %>
+
