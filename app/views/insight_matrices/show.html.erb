@@ -1,0 +1,22 @@
+insight_matrix show page
+
+
+<%= @insight_matrix.name %>
+
+<%= simple_form_for [@insight_matrix, @insight] do |f| %>
+  <%= f.input :name %>
+  <%= f.button :submit %>
+<% end %>
+
+
+<div class="matrix">
+  <%= simple_form_for @insight_matrix do |f| %>
+    <%= f.simple_fields_for :insight_relationships do |ir| %>
+      <%= ir.input :source_id, as: :hidden %>
+      <%= ir.input :target_id, as: :hidden %>
+      <%= ir.input :value, as: :select, collection: 0..3, label: ir.object.label, blank: false %>
+    <% end %>
+
+    <%= f.submit %>
+  <% end %>
+</div>

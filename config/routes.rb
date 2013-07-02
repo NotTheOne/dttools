@@ -1,6 +1,11 @@
 Dttools::Application.routes.draw do
 
-resources :insights
+  resources :insight_relationships
+
+
+  resources :insight_matrices do
+    resources :insights
+  end
 
   root to: 'insights#index'
   # The priority is based upon order of creation:

@@ -1,0 +1,9 @@
+index page for insight matrices
+
+<% @insight_matrices.each do |im| %>
+  <%= link_to im.name, insight_matrix_path(im) %>
+<% end %>
+
+
+<br />
+<%= link_to 'create new matrix', new_insight_matrix_path %>

@@ -1,6 +1,6 @@
-<%= simple_form_for @insight do |f| %>
+<%= simple_form_for [@insight_matrix, @insight] do |f| %>
 	<%= f.input :name %>
 	<%= f.button :submit %>
 <% end %>
 
-<%= link_to 'Done', insights_path %>
+<%= link_to 'Donewo', insight_matrix_path(@insight_matrix) %>
