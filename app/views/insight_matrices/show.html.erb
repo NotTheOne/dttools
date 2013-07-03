@@ -10,54 +10,76 @@ insight_matrix show page
 
 <% if @insights.present? %>
   <div class="matrix">
-    <%= simple_form_for @insight_matrix do |f| %>
 
-      <% count = 0 %>
+
+  <table>
+    <thead>
+      <th></th>
+      <% @insights.each do |i| %>
+      <th><%= i.name %></th>
+      <% end %>
+    </thead>
+    <tbody>
+
+
+
+
+
+
+
+    <!-- this is the beginning of the parent matrix form -->
+    <%= simple_form_for @insight_matrix do |f| %> 
+
+      <!-- we start a count to know which row we're on -->
+      <% row_count = 0 %>
+
+      <!-- we divide our set of insight relationships by number of insights to get rows -->
       <% @insight_matrix.insight_relationships.each_slice(@insights.count) do |row| %>
-        <br />
-        <% row.each_with_index do |ir, index| %>
-          <% if ir.id && (count > index) %>
-            <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
-              <%= ff.select(:value, 0..3, {selected: ir.value}) %>
-              <%= ff.hidden_field(:target_id, {value: ir.target_id}) %>
-              <%= ff.hidden_field(:source_id, {value: ir.source_id}) %>
-              <%= ff.hidden_field(:id, {value: ir.id}) %>
-            <% end %>
-          <% elsif count == index %>
-            <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
-              <%= ff.select(:value, 0..3, {selected: 3}) %>
-              <%= ff.hidden_field(:target_id, {value: ir.target_id}) %>
-              <%= ff.hidden_field(:source_id, {value: ir.source_id}) %>
-              <%= ff.hidden_field(:id, {value: ir.id}) %>
+
+        <% if row.first.id %>
+          <tr>
+            <td><%= row.first.source.name %></td>
+          <!-- we loop over each insight relationship in each row -->
+          <% row.each_with_index do |ir, index| %>
+            <td>
+            <!-- here we check that row_count is greater than index to fill lower half of triangle -->
+            <% if ir.id && (row_count > index) %>
+              
+              <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
+                <!-- make a select box -->
+                <%= ff.select(:value, 0..3, {selected: ir.value}) %>
+
+                <!-- save some hidden data about specific insight relationship -->
+                <%= ff.hidden_field(:target_id, {value: ir.target_id}) %>
+                <%= ff.hidden_field(:source_id, {value: ir.source_id}) %>
+                <%= ff.hidden_field(:id, {value: ir.id}) %>
+              <% end %>
+
+              <!-- this is the diagonal where row_count equals index - set all of these as 3 -->
+            <% elsif row_count == index %>
+              <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
+                <%= ff.select(:value, 0..3, {selected: 3}) %>
+                <%= ff.hidden_field(:target_id, {value: ir.target_id}) %>
+                <%= ff.hidden_field(:source_id, {value: ir.source_id}) %>
+                <%= ff.hidden_field(:id, {value: ir.id}) %>
+              <% end %>
             <% end %>
           <% end %>
+          <% row_count += 1 %>
+          </td>
+          <td>
+            <%= link_to 'Delete Insight', insight_matrix_insight_path(row.first.source.insight_matrix, row.first.source), method: :delete, data: { confirm:"Are you sure?" }, class:"btn btn-mini btn-danger"   %>
+          </td>
         <% end %>
-        <% count += 1 %>
 
-      <% end %>
+        </tr>
+        <% end %>
       <%= f.submit %>
     <% end %>
+
+
+
+    </tbody>
+  </table>
   </div>
 <% end %>
-
-<table>
-  <thead>
-    <th></th>
-    <% @insights.each do |i| %>
-    <th><%= i.name %></th>
-    <% end %>
-  </thead>
-  <tbody>
-    <% @insights.each do |insight| %>
-    <tr>
-      <td><%= insight.name %></td>
-      <% (1..@insights.length).to_a.each do %>
-      <td>Dropdown!</td>
-      <% end %>
-      <td>
-        <%= link_to 'Delete Insight', '', method: :delete, data: { confirm:"Are you sure?" }, class:"btn btn-mini btn-danger"   %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
