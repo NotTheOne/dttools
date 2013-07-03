@@ -1,0 +1,2 @@
+class InsightRelationshipsController < ApplicationController
+end
