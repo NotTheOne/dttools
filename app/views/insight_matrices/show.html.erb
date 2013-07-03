@@ -21,12 +21,6 @@ insight_matrix show page
     </thead>
     <tbody>
 
-
-
-
-
-
-
     <!-- this is the beginning of the parent matrix form -->
     <%= simple_form_for @insight_matrix do |f| %> 
 
@@ -41,10 +35,11 @@ insight_matrix show page
             <td><%= row.first.source.name %></td>
           <!-- we loop over each insight relationship in each row -->
           <% row.each_with_index do |ir, index| %>
-            <td>
+
+            
             <!-- here we check that row_count is greater than index to fill lower half of triangle -->
             <% if ir.id && (row_count > index) %>
-              
+              <td class="rating-<%= ir.value %>">
               <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
                 <!-- make a select box -->
                 <%= ff.select(:value, 0..3, {selected: ir.value}) %>
@@ -57,12 +52,15 @@ insight_matrix show page
 
               <!-- this is the diagonal where row_count equals index - set all of these as 3 -->
             <% elsif row_count == index %>
+              <td class="rating-3">
               <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
                 <%= ff.select(:value, 0..3, {selected: 3}) %>
                 <%= ff.hidden_field(:target_id, {value: ir.target_id}) %>
                 <%= ff.hidden_field(:source_id, {value: ir.source_id}) %>
                 <%= ff.hidden_field(:id, {value: ir.id}) %>
               <% end %>
+            <% else %>
+              <td>
             <% end %>
           <% end %>
           <% row_count += 1 %>

@@ -12,6 +12,7 @@ class InsightMatricesController < ApplicationController
     @insights = @insight_matrix.insights
     @insight = Insight.new
 
+    # this builds all the insight relationships for a matrix
     @insights.each do |source|
       @insights.each do |target|
         @insight_matrix.insight_relationships.create(source: source, target: target)
