@@ -5,14 +5,17 @@ class InsightsController < ApplicationController
 	end
 
 	def new
+		@insight_matrix = InsightMatrix.find(params[:insight_matrix_id])
 		@insight = Insight.new
 	end
 
 	def create
+		@insight_matrix = InsightMatrix.find(params[:insight_matrix_id])
 		@insight = Insight.new(params[:insight])
-		
+		@insight.insight_matrix = @insight_matrix
+
 		if @insight.save
-			redirect_to new_insight_path, notice: 'Successfully added insight'
+			redirect_to insight_matrix_path(@insight_matrix), notice: 'Successfully added insight'
 		else
 			flash[:error] = 'Failed to add insight'
 			render :new # this loops back to new
@@ -26,14 +29,15 @@ class InsightsController < ApplicationController
 
 
 	def edit
-	
+
 	end
 
 
 	def destroy
+		@insight_matrix = InsightMatrix.find(params[:insight_matrix_id])
 		@insight = Insight.find(params[:id])
 		@insight.destroy
-		redirect_to insights_path
+		redirect_to insight_matrix_path(@insight_matrix)
 	end
 
 end

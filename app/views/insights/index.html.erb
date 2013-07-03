@@ -1,25 +1,24 @@
 <h1>Insight Matrix</h1>
 
 
-<table>
+<table class="matrix">
 	<thead>
 		<th></th>
 		<% @insights.each do |i| %> <!-- creates a loop to create the grid	-->
-			<th><%= i.name %></th>
+			<th class="diag"><%= i.name %></th>
 		<% end %>
 	</thead>
 	<tbody>
-		<% @insights.each do |insight| %>
+		<% @insights.each_with_index do |insight, row_index| %>
 			<tr>
 				<td><%= insight.name %></td>
-				<% (1..@insights.length).to_a.each do %>
-					<td>
-						<select>
-							<option>0</option> <!-- different rating options -->
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-						</select>
+				<% (0..@insights.length - 1).to_a.each do |col_index| %>
+					<td class="<%= 'same' if row_index == col_index %>">
+						<% if col_index  == row_index %>
+							<%= select_tag "people", options_for_select([0,1,2,3], 3) %>
+						<% elsif col_index < row_index %>
+							<%= select_tag "people", options_for_select([0,1,2,3], 0) %>
+						<% end %>
 					</td>
 				<% end %>
 				<td> <!-- from here down to the next end creates the delete button -->
@@ -28,7 +27,7 @@
 			</tr>
 		<% end %>
 </table>
- 
+
  <!-- the line below creates the add insinght button  -->
 <%= link_to 'Add Insight', new_insight_path, class:"btn btn-mini btn-info" %>
 

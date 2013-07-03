@@ -11,12 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626183718) do
+ActiveRecord::Schema.define(:version => 20130703030524) do
 
-  create_table "insights", :force => true do |t|
+  create_table "insight_matrices", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "insight_relationships", :force => true do |t|
+    t.integer  "source_id"
+    t.integer  "target_id"
+    t.integer  "insight_matrix_id"
+    t.integer  "value"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "insight_relationships", ["source_id", "target_id"], :name => "index_insight_relationships_on_source_id_and_target_id", :unique => true
+
+  create_table "insights", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "insight_matrix_id"
   end
 
 end
