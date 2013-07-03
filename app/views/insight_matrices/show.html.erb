@@ -8,15 +8,24 @@ insight_matrix show page
   <%= f.button :submit %>
 <% end %>
 
-
 <div class="matrix">
   <%= simple_form_for @insight_matrix do |f| %>
-    <%= f.simple_fields_for :insight_relationships do |ir| %>
-      <%= ir.input :source_id, as: :hidden %>
-      <%= ir.input :target_id, as: :hidden %>
-      <%= ir.input :value, as: :select, collection: 0..3, label: ir.object.label, blank: false %>
-    <% end %>
 
-    <%= f.submit %>
+    <% count = 0 %>
+    <% @insight_matrix.insight_relationships.each_slice(@insights.count) do |row| %>
+      <% row.each_with_index do |ir, index| %>
+
+        <% unless count == index %>
+          <%= fields_for "insight_matrix[insight_relationships_attributes][#{ir.id}]" do |ff| %>
+            <%= ff.select(:value, 0..3, {selected: ir.value}) %>
+            <%= ff.hidden_field(:target_id, {value: ir.target_id}) %>
+            <%= ff.hidden_field(:source_id, {value: ir.source_id}) %>
+          <% end %>
+        <% end %>
+        <% count += 1 %>
+      <% end %>
+
+      <%= f.submit %>
+    <% end %>
   <% end %>
 </div>

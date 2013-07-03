@@ -15,13 +15,14 @@ class InsightMatricesController < ApplicationController
     @insights.each do |source|
       @insights.each do |target|
         unless InsightRelationship.find_by_source_id_and_target_id(source.id, target.id)
-          @insight_matrix.insight_relationships.build(source: source, target: target)
+          @insight_matrix.insight_relationships.create(source: source, target: target)
         end
       end
     end
   end
 
   def update
+    binding.pry
     @insight_matrix = InsightMatrix.find(params[:id])
     if @insight_matrix.update_attributes(params[:insight_matrix])
       redirect_to insight_matrix_path(@insight_matrix)
