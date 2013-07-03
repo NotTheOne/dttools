@@ -1,5 +1,5 @@
 <h1>Insight Matrix</h1>
-
+<%= link_to "view all matrices", insight_matrices_path %>
 
 <table class="matrix">
 	<thead>
@@ -22,12 +22,12 @@
 					</td>
 				<% end %>
 				<td> <!-- from here down to the next end creates the delete button -->
-					<%= link_to 'Delete Insight', insight, method: :delete, data: { confirm:"Are you sure?" }, class:"btn btn-mini btn-danger"   %>
+					<%= link_to 'Delete Insight', "", method: :delete, data: { confirm:"Are you sure?" }, class:"btn btn-mini btn-danger"   %>
 				</td>
 			</tr>
 		<% end %>
 </table>
 
  <!-- the line below creates the add insinght button  -->
-<%= link_to 'Add Insight', new_insight_path, class:"btn btn-mini btn-info" %>
+<%= link_to 'Add Insight', "", class:"btn btn-mini btn-info" %>
 
